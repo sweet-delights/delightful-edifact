@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+This file is part of delightful-edifact.
+
+delightful-edifact is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://github.com/sweet-delights"
+           xmlns="https://github.com/sweet-delights"
+           elementFormDefault="qualified"
+           version="0.0.1">
+    
+    <xs:element name="grammar" type="Grammar"/>
+    
+    <xs:complexType name="Grammar">
+        <xs:sequence>
+            <xs:element name="messages" type="Messages" />
+            <xs:element name="groups" type="Groups" />
+            <xs:element name="segments" type="Segments" />
+            <xs:element name="composites" type="Composites" />
+            <xs:element name="data" type="Data" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="Messages">
+        <xs:sequence>
+            <xs:element name="message" minOccurs="0" maxOccurs="unbounded" type="Message" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="Groups">
+        <xs:sequence>
+            <xs:element name="group" minOccurs="0" maxOccurs="unbounded" type="Group" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="Segments">
+        <xs:sequence>
+            <xs:element name="segment" minOccurs="0" maxOccurs="unbounded" type="Segment" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Composites">
+        <xs:sequence>
+            <xs:element name="composite" minOccurs="0" maxOccurs="unbounded" type="Composite" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Data">
+        <xs:sequence>
+            <xs:element name="datum" minOccurs="0" maxOccurs="unbounded" type="Datum" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="Def" abstract="true">
+        <xs:attribute name="id" type="xs:ID" use="required" />
+    </xs:complexType>
+    
+    <xs:complexType name="Ref" abstract="true">
+        <xs:attribute name="id" type="xs:IDREF" use="required" />
+        <xs:attribute name="fieldName" type="xs:string" use="required" />
+        <xs:attribute name="status" type="Status" use="required" />
+        <xs:attribute name="repetition" type="xs:positiveInteger" use="required" />
+    </xs:complexType>
+    
+    <xs:complexType name="Message">
+        <xs:complexContent>
+            <xs:extension base="Def">
+                <xs:attribute name="tag" type="MessageTag" use="required" />
+                <xs:attribute name="organization" type="NonEmptyString" use="required" />
+                <xs:attribute name="major" type="xs:integer" use="required" />
+                <xs:attribute name="minor" type="xs:integer" use="required" />
+                <xs:attribute name="separator" type="xs:string" use="required" />
+                <xs:choice maxOccurs="unbounded">
+                    <xs:element name="groupref" minOccurs="0" maxOccurs="unbounded" type="GroupRef" />
+                    <xs:element name="segmentref" minOccurs="0" maxOccurs="unbounded" type="SegmentRef" />
+                </xs:choice>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="Group">
+        <xs:complexContent>
+            <xs:extension base="Def">
+                <xs:choice maxOccurs="unbounded">
+                    <xs:element name="groupref" minOccurs="0" maxOccurs="unbounded" type="GroupRef" />
+                    <xs:element name="segmentref" minOccurs="0" maxOccurs="unbounded" type="SegmentRef" />
+                </xs:choice>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="Segment">
+        <xs:complexContent>
+            <xs:extension base="Def">
+                <xs:attribute name="tag" type="NonEmptyString" use="required" />
+                <xs:choice maxOccurs="unbounded">
+                    <xs:element name="compositeref" minOccurs="0" maxOccurs="unbounded" type="CompositeRef" />
+                    <xs:element name="dataref" minOccurs="0" maxOccurs="unbounded" type="DataRef" />
+                </xs:choice>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="Composite">
+        <xs:complexContent>
+            <xs:extension base="Def">
+                <xs:choice maxOccurs="unbounded">
+                    <xs:element name="dataref" type="DataRef" />
+                </xs:choice>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="Datum">
+        <xs:complexContent>
+            <xs:extension base="Def">
+                <xs:attribute name="minLength" type="xs:nonNegativeInteger" use="required" />
+                <xs:attribute name="maxLength" type="xs:positiveInteger" use="required" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="MessageRef">
+        <xs:complexContent>
+            <xs:extension base="Ref">
+                <xs:attribute name="tag" type="NonEmptyString" use="required" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="GroupRef">
+        <xs:complexContent>
+            <xs:extension base="Ref" />
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="SegmentRef">
+        <xs:complexContent>
+            <xs:extension base="Ref" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="CompositeRef">
+        <xs:complexContent>
+            <xs:extension base="Ref" />
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="DataRef">
+        <xs:complexContent>
+            <xs:extension base="Ref" />
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:simpleType name="MessageTag">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z]{6}" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="SegmentTag">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z]{3}" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="Status">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="M|M\\*|C|N/A" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="NonEmptyString">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
+    

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This file is part of delightful-edifact.
+
+delightful-edifact is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<grammar xmlns="https://github.com/sweet-delights">
+    <messages />
+    <groups />
+    <segments>
+        <segment id="__UNB" tag="UNB">
+            <compositeref id="__UNB_1" fieldName="syntax" repetition="1" status="M" />
+            <compositeref id="__UNB_2" fieldName="sender" repetition="1" status="M" />
+            <compositeref id="__UNB_3" fieldName="receiver" repetition="1" status="M" />
+            <compositeref id="__UNB_4" fieldName="preparation" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="controlReference" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="recipientControlReference" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="applicationReference" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="associationCode" repetition="1" status="C" />
+        </segment>
+        <segment id="__UNG" tag="UNG">
+            <dataref id="__STRING" fieldName="messageGroupIdentification" repetition="1" status="C" />
+            <compositeref id="__UNG_2" fieldName="applicationSenderIdentification" repetition="1" status="C" />
+            <compositeref id="__UNG_3" fieldName="applicationRecipientIdentification" repetition="1" status="C" />
+            <compositeref id="__UNG_4" fieldName="dateAndTimeOfPreparation" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="groupReferenceNumber" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="controllingAgency" repetition="1" status="C" />
+            <compositeref id="__UNG_7" fieldName="messageVersion" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="applicationPassword" status="C" repetition="1" />
+        </segment>
+        <segment id="__UNH" tag="UNH">
+            <dataref id="__STRING" fieldName="messageReference" repetition="1" status="M" />
+            <compositeref id="__UNH_2" fieldName="messageIdentifier" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="transferStatus" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="subsetIdentification" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="messageImplementation" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="scenarioIdentification" repetition="1" status="C" />
+        </segment>
+    </segments>
+    <composites>
+        <composite id="__UNB_1">
+            <dataref id="__STRING" fieldName="identifier" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="version" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="serviceCode" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="encoding" repetition="1" status="C" />
+        </composite>
+        <composite id="__UNB_2">
+            <dataref id="__STRING" fieldName="identifier" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="qualifier" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="internalIdentification" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="internalSubIdentification" repetition="1" status="C" />
+        </composite>
+        <composite id="__UNB_3">
+            <dataref id="__STRING" fieldName="identifier" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="qualifier" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="internalIdentification" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="internalSubIdentification" repetition="1" status="C" />
+        </composite>
+        <composite id="__UNB_4">
+            <dataref id="__STRING" fieldName="date" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="time" repetition="1" status="M" />
+        </composite>
+        <composite id="__UNG_2">
+            <dataref id="__STRING" fieldName="applicationSenderIdentification" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="identificationCodeQualifier" repetition="1" status="C" />
+        </composite>
+        <composite id="__UNG_3">
+            <dataref id="__STRING" fieldName="applicationRecipientIdentification" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="identificationCodeQualifier" repetition="1" status="C" />
+        </composite>
+        <composite id="__UNG_4">
+            <dataref id="__STRING" fieldName="date" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="time" repetition="1" status="M" />
+        </composite>
+        <composite id="__UNG_7">
+            <dataref id="__STRING" fieldName="versionNumber" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="releaseNumber" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="agencyCode" repetition="1" status="C" />
+        </composite>
+        <composite id="__UNH_2" >
+            <dataref id="__STRING" fieldName="type" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="version" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="release" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="agency" repetition="1" status="M" />
+            <dataref id="__STRING" fieldName="code" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="codeVersion" repetition="1" status="C" />
+            <dataref id="__STRING" fieldName="subType" repetition="1" status="C" />
+        </composite>
+    </composites>
+    <data>
+        <datum id="__STRING" minLength="1" maxLength="999"/>
+    </data>
+</grammar>

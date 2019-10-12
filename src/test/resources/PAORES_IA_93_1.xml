@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This file is part of delightful-edifact.
+
+delightful-edifact is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<grammar xmlns="https://github.com/sweet-delights">
+    <messages>
+        <message id="M_1" tag="PAORES" organization="IA" major="93" minor="1" separator="+">
+            <segmentref id="S_2" fieldName="messageEntry" status="C" repetition="1" />
+            <segmentref id="S_1" fieldName="freeflowText" status="C" repetition="2" />
+            <groupref id="G_1" fieldName="errorOrWarningSection" status="C" repetition="5" />
+            <groupref id="G_2" fieldName="singleCityPairInfo" status="C" repetition="2" />
+        </message>
+    </messages>
+    <groups>
+        <group id="G_1">
+            <segmentref id="S_3" fieldName="errorOrWarningInfo" status="M" repetition="1" />
+            <segmentref id="S_1" fieldName="textInformation" status="C" repetition="1" />
+        </group>
+        <group id="G_2">
+            <segmentref id="S_4" fieldName="boardoff" status="M" repetition="1" />
+            <groupref id="G_3" fieldName="flightInfo" status="C" repetition="99" />
+        </group>
+        <group id="G_3">
+            <segmentref id="S_8" fieldName="basicFlightInfo" status="M" repetition="1" />
+            <segmentref id="S_6" fieldName="infoOnClass" status="C" repetition="1" />
+            <segmentref id="S_5" fieldName="flightDetails" status="C" repetition="1" />
+            <segmentref id="S_1" fieldName="flightFreeflowText" status="C" repetition="1" />
+            <segmentref id="S_7" fieldName="trafficRestrictionDetails" status="C" repetition="1" />
+            <groupref id="G_4" fieldName="flightErrorWarningSection" status="C" repetition="5" />
+        </group>
+        <group id="G_4">
+            <segmentref id="S_3" fieldName="flightErrorWarningInfo" status="M" repetition="1" />
+            <segmentref id="S_1" fieldName="flightErrorWarningText" status="C" repetition="1" />
+        </group>
+    </groups>
+    <segments>
+        <segment id="S_5" tag="APD">
+            <compositeref id="C_4" fieldName="flightDetails" status="C" repetition="1"/>
+            <compositeref id="C_8" fieldName="departureStation" status="C" repetition="1"/>
+            <compositeref id="C_8" fieldName="arrivalStation" status="C" repetition="1"/>
+            <compositeref id="C_5" fieldName="milageDetails" status="N/A" repetition="1"/>
+            <compositeref id="C_6" fieldName="travellerTimeDetails" status="C" repetition="1"/>
+            <compositeref id="C_7" fieldName="" status="N/A" repetition="1"/>
+            <compositeref id="C_7" fieldName="" status="N/A" repetition="1"/>
+            <compositeref id="C_7" fieldName="productFacilities" status="C" repetition="10"/>
+            <compositeref id="C_7" fieldName="" status="N/A" repetition="1"/>
+        </segment>
+        <segment id="S_3" tag="ERC">
+            <compositeref id="C_3" fieldName="error" status="M" repetition="1"/>
+        </segment>
+        <segment id="S_1" tag="IFT">
+            <compositeref id="C_1" fieldName="freeTextQualification" status="C" repetition="1"/>
+            <dataref id="D_6" fieldName="freeText" status="C" repetition="99" />
+        </segment>
+        <segment id="S_2" tag="MSG">
+            <compositeref id="C_2" fieldName="functionDetails" status="M" repetition="1"/>
+            <dataref id="D_1" fieldName="responseType" status="C" repetition="1" />
+        </segment>
+        <segment id="S_4" tag="ODI">
+            <dataref id="D_14" fieldName="origin" status="C" repetition="1" />
+            <dataref id="D_14" fieldName="destination" status="C" repetition="1" />
+        </segment>
+        <segment id="S_6" tag="PDI">
+            <dataref id="D_1" fieldName="" status="N/A" repetition="1" />
+            <compositeref id="C_9" fieldName="productClassDetail" status="M" repetition="26"/>
+        </segment>
+        <segment id="S_7" tag="TRF">
+            <compositeref id="C_10" fieldName="trafficRestriction" status="C" repetition="5"/>
+        </segment>
+        <segment id="S_8" tag="TVL">
+            <compositeref id="C_14" fieldName="flightDate" status="M" repetition="1"/>
+            <compositeref id="C_15" fieldName="boardPointDetails" status="M" repetition="1"/>
+            <compositeref id="C_15" fieldName="offPointDetails" status="M" repetition="1"/>
+            <compositeref id="C_11" fieldName="companyDetails" status="C" repetition="1"/>
+            <compositeref id="C_12" fieldName="flightIdentification" status="M*" repetition="1"/>
+            <compositeref id="C_13" fieldName="flightTypeDetails" status="C" repetition="1"/>
+            <dataref id="D_17" fieldName="itemNumber" status="C" repetition="1" />
+            <dataref id="D_1" fieldName="" status="N/A" repetition="1" />
+        </segment>
+    </segments>
+    <composites>
+        <composite id="C_2">
+            <dataref id="D_1" fieldName="businessFunction" status="C" repetition="1" />
+            <dataref id="D_1" fieldName="actionCode" status="M" repetition="1" />
+            <dataref id="D_1" fieldName="" status="N/A" repetition="1" />
+            <dataref id="D_1" fieldName="additionalActionCode" status="C" repetition="9" />
+        </composite>
+        <composite id="C_9">
+            <dataref id="D_2" fieldName="serviceClass" status="M" repetition="1" />
+            <dataref id="D_27" fieldName="availabilityStatus" status="C" repetition="1" />
+            <dataref id="D_1" fieldName="" status="N/A" repetition="1" />
+            <dataref id="D_2" fieldName="modifier" status="C" repetition="2" />
+        </composite>
+        <composite id="C_11">
+            <dataref id="D_1" fieldName="marketingCompany" status="M" repetition="1" />
+            <dataref id="D_1" fieldName="operatingCompany" status="C" repetition="1" />
+        </composite>
+        <composite id="C_12">
+            <dataref id="D_5" fieldName="flightNumber" status="M" repetition="1" />
+            <dataref id="D_33" fieldName="bookingClass" status="N/A" repetition="1" />
+            <dataref id="D_2" fieldName="operationalSuffix" status="C" repetition="1" />
+        </composite>
+        <composite id="C_13">
+            <dataref id="D_17" fieldName="flightIndicator" status="C" repetition="9" />
+        </composite>
+        <composite id="C_14">
+            <dataref id="D_37" fieldName="depDate" status="M" repetition="1" />
+            <dataref id="D_38" fieldName="depTime" status="M" repetition="1" />
+            <dataref id="D_39" fieldName="arrDate" status="C" repetition="1" />
+            <dataref id="D_40" fieldName="arrTime" status="M" repetition="1" />
+            <dataref id="D_2" fieldName="dateVariation" status="C" repetition="1" />
+        </composite>
+        <composite id="C_4">
+            <dataref id="D_1" fieldName="typeOfAircraft" status="C" repetition="1" />
+            <dataref id="D_17" fieldName="numberOfStops" status="C" repetition="1" />
+            <dataref id="D_18" fieldName="legDuration" status="C" repetition="1" />
+            <dataref id="D_1" fieldName="onTimePercentage" status="N/A" repetition="1" />
+            <dataref id="D_19" fieldName="dayOfOperation" status="C" repetition="1" />
+            <dataref id="D_44" fieldName="effectivePeriod" status="N/A" repetition="1" />
+            <dataref id="D_2" fieldName="complexingFlightIndicator" status="N/A" repetition="1" />
+            <dataref id="D_46" fieldName="firstChangeOfGauge" status="N/A" repetition="1" />
+            <dataref id="D_46" fieldName="" status="N/A" repetition="1" />
+            <dataref id="D_46" fieldName="" status="N/A" repetition="1" />
+        </composite>
+        <composite id="C_5">
+            <dataref id="D_47" fieldName="flightLeg" status="N/A" repetition="1" />
+            <dataref id="D_1" fieldName="measureUnit" status="N/A" repetition="1" />
+        </composite>
+        <composite id="C_6">
+            <dataref id="D_20" fieldName="departureTime" status="C" repetition="1" />
+            <dataref id="D_21" fieldName="arrivalTime" status="C" repetition="1" />
+            <dataref id="D_49" fieldName="checkInDateAndTime" status="N/A" repetition="1" />
+        </composite>
+        <composite id="C_7">
+            <dataref id="D_1" fieldName="type" status="C" repetition="1" />
+        </composite>
+        <composite id="C_15">
+            <dataref id="D_42" fieldName="trueLocationId" status="M" repetition="1" />
+        </composite>
+        <composite id="C_10">
+            <dataref id="D_1" fieldName="code" status="C" repetition="1" />
+        </composite>
+        <composite id="C_1">
+            <dataref id="D_1" fieldName="codedIndicator" status="M" repetition="1" />
+            <dataref id="D_5" fieldName="typeOfInfo" status="C" repetition="1" />
+            <dataref id="D_2" fieldName="" status="N/A" repetition="1" />
+            <dataref id="D_4" fieldName="" status="N/A" repetition="1" />
+            <dataref id="D_1" fieldName="isoLanguageCode" status="C" repetition="1" />
+        </composite>
+        <composite id="C_8">
+            <dataref id="D_18" fieldName="gate" status="C" repetition="1" />
+            <dataref id="D_17" fieldName="terminal" status="C" repetition="1" />
+            <dataref id="D_17" fieldName="concourseTerminal" status="C" repetition="1" />
+        </composite>
+        <composite id="C_3">
+            <dataref id="D_1" fieldName="code" status="M" repetition="1" />
+            <dataref id="D_1" fieldName="type" status="C" repetition="1" />
+            <dataref id="D_1" fieldName="listResponsible" status="C" repetition="1" />
+        </composite>
+    </composites>
+    <data>
+        <datum id="D_6" minLength="1" maxLength="70" />
+        <datum id="D_14" minLength="3" maxLength="3" />
+        <datum id="D_27" minLength="1" maxLength="3" />
+        <datum id="D_33" minLength="1" maxLength="17" />
+        <datum id="D_37" minLength="6" maxLength="6" />
+        <datum id="D_38" minLength="4" maxLength="4" />
+        <datum id="D_39" minLength="6" maxLength="6" />
+        <datum id="D_40" minLength="4" maxLength="4" />
+        <datum id="D_17" minLength="1" maxLength="2" />
+        <datum id="D_18" minLength="1" maxLength="6" />
+        <datum id="D_19" minLength="1" maxLength="7" />
+        <datum id="D_44" minLength="1" maxLength="12" />
+        <datum id="D_46" minLength="3" maxLength="3" />
+        <datum id="D_47" minLength="1" maxLength="8" />
+        <datum id="D_20" minLength="4" maxLength="4" />
+        <datum id="D_21" minLength="4" maxLength="4" />
+        <datum id="D_49" minLength="10" maxLength="10" />
+        <datum id="D_42" minLength="3" maxLength="3" />
+        <datum id="D_5" minLength="1" maxLength="4" />
+        <datum id="D_2" minLength="1" maxLength="1" />
+        <datum id="D_4" minLength="1" maxLength="35" />
+        <datum id="D_1" minLength="1" maxLength="3" />
+    </data>
+</grammar>
