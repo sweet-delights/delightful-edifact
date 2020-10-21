@@ -1,0 +1,7 @@
+-Xms1024m
+-Xmx1024m
+-XX:ReservedCodeCacheSize=256m
+-XX:MaxMetaspaceSize=1g
+-Duser.country=US
+-Duser.language=en
+
