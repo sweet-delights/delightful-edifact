@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/sweet-delights/delightful-edifact.svg?branch=master)](https://travis-ci.com/sweet-delights/delightful-edifact)
+
 `delightful-edifact` is an EDIFACT data-binding [Scala](https://www.scala-lang.org/) code generator and library, inpired
 by the excellent [`scalaxb`](https://scalaxb.org/) tool.
 
