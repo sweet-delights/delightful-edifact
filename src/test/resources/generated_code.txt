@@ -332,7 +332,7 @@ abstract class EdifactParser extends BytesParsers {
 
   def repMN[T](p: Parser[T], m: Int, n: Int): Parser[List[T]] = repMN[T](p, success(()), m, n)
 
-  lazy val quote: Parser[Byte] = '''.toByte
+  lazy val quote: Parser[Byte] = '\''.toByte
 
   lazy val plus: Parser[Byte] = '+'.toByte
 
@@ -342,7 +342,7 @@ abstract class EdifactParser extends BytesParsers {
 
   lazy val parse_Data /*(m: Int, n: Int)*/: Parser[String] = notIn(
     Set[Byte](
-      '''.toByte,
+      '\''.toByte,
       '+'.toByte,
       ':'.toByte,
       '*'.toByte

@@ -52,11 +52,11 @@ lazy val commonSettings = Seq(
   publishConfiguration := publishConfiguration.value.withOverwrite(true),
   publishLocalConfiguration := publishLocalConfiguration.value.withOverwrite(true),
   releaseCrossBuild := true,
-  releaseVersion := { ver => // taken from ti-starter-kit
+  releaseVersion := { ver =>
     val bumpedVersion = Version(ver)
       .map { v =>
         suggestedBump.value match {
-          case Version.Bump.Bugfix => v.withoutQualifier.string // Already bumped by previous release
+          case Version.Bump.Bugfix => v.withoutQualifier.string
           case _ => v.bump(suggestedBump.value).withoutQualifier.string
         }
       }

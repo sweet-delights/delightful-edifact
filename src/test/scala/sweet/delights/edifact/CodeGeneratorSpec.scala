@@ -27,6 +27,12 @@ class CodeGeneratorSpec extends Specification {
       val code = new CodeGenerator(props).compile("src/test/resources/PAORES_IA_93_1.xml")
       val expected = Source.fromFile("src/test/resources/generated_code.txt", "UTF-8").getLines().mkString("\n")
 
+//      val os = new FileOutputStream("toto.txt")
+//      os.write(code.getBytes("UTF-8"))
+//      os.write('\n')
+//      os.flush()
+//      os.close()
+
       code mustEqual expected
     }
   }

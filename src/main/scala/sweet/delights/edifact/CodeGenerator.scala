@@ -192,7 +192,7 @@ class CodeGenerator(props: Map[String, String] = Map.empty) {
          |
          |  def repMN[T](p: Parser[T], m: Int, n: Int): Parser[List[T]] = repMN[T](p, success(()), m, n)
          |
-         |  lazy val quote: Parser[Byte] = ${if (props.get("mode").exists(_ == "text")) "'''.toByte" else "0x1c.toByte"}
+         |  lazy val quote: Parser[Byte] = ${if (props.get("mode").exists(_ == "text")) """'\''.toByte""" else "0x1c.toByte"}
          |
          |  lazy val plus: Parser[Byte] = ${if (props.get("mode").exists(_ == "text")) "'+'.toByte" else "0x1d.toByte"}
          |
@@ -202,7 +202,7 @@ class CodeGenerator(props: Map[String, String] = Map.empty) {
          |
          |  lazy val parse_Data /*(m: Int, n: Int)*/: Parser[String] = notIn(
          |    Set[Byte](
-         |      ${if (props.get("mode").exists(_ == "text")) "'''.toByte" else "0x1c.toByte"},
+         |      ${if (props.get("mode").exists(_ == "text")) """'\''.toByte""" else "0x1c.toByte"},
          |      ${if (props.get("mode").exists(_ == "text")) "'+'.toByte" else "0x1d.toByte"},
          |      ${if (props.get("mode").exists(_ == "text")) "':'.toByte" else "0x1f.toByte"},
          |      ${if (props.get("mode").exists(_ == "text")) "'*'.toByte" else "0x19.toByte"}

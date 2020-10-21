@@ -1,17 +1,3 @@
-// This file is part of delightful-edifact.
-//
-// delightful-edifact is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package sweet.delights.edifact
 
 import scala.annotation.tailrec
@@ -346,7 +332,7 @@ abstract class EdifactParser extends BytesParsers {
 
   def repMN[T](p: Parser[T], m: Int, n: Int): Parser[List[T]] = repMN[T](p, success(()), m, n)
 
-  lazy val quote: Parser[Byte] = '''.toByte
+  lazy val quote: Parser[Byte] = '\''.toByte
 
   lazy val plus: Parser[Byte] = '+'.toByte
 
@@ -356,7 +342,7 @@ abstract class EdifactParser extends BytesParsers {
 
   lazy val parse_Data /*(m: Int, n: Int)*/: Parser[String] = notIn(
     Set[Byte](
-      '''.toByte,
+      '\''.toByte,
       '+'.toByte,
       ':'.toByte,
       '*'.toByte
