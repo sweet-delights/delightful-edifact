@@ -1,0 +1,14 @@
+os: linux
+dist: trusty
+language: scala
+
+jdk:
+  - oraclejdk8
+
+scala:
+  - 2.12.12
+  - 2.13.3
+
+stages:
+  - name: test
+
