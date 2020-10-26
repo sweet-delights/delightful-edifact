@@ -5,6 +5,9 @@ by the excellent [`scalaxb`](https://scalaxb.org/) tool.
 
 # [License](LICENSE.md)
 
+All files in `delightful-anonymization` are under the GNU Lesser General Public License version 3.
+Please read files [`COPYING`]("COPYING") and [`COPYING.LESSER`]("COPYING.LESSER") for details.
+
 # Introduction
 
 ## What is EDIFACT ?
@@ -56,3 +59,7 @@ care of generating the case classes and parser combinators.
 
 TODO
 
+## Acknowledgements
+
+- the [`scala-parser-combinators`](https://github.com/scala/scala-parser-combinators) library
+- the [`monocle`](https://www.optics.dev/Monocle/) library
