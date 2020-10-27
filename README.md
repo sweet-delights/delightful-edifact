@@ -1,11 +1,12 @@
 [![Build Status](https://travis-ci.com/sweet-delights/delightful-edifact.svg?branch=master)](https://travis-ci.com/sweet-delights/delightful-edifact)
 
-`delightful-edifact` is an EDIFACT data-binding [Scala](https://www.scala-lang.org/) code generator and library, inpired
-by the excellent [`scalaxb`](https://scalaxb.org/) tool.
+`delightful-edifact` is a data-binding code generator and library for [EDIFACT](https://en.wikipedia.org/wiki/EDIFACT)
+messages, written in [Scala](https://www.scala-lang.org/) . It is inspired by the excellent [`scalaxb`](https://scalaxb.org/)
+tool. The parsing itself is implemented with [`scala-parser-combinators`](https://github.com/scala/scala-parser-combinators).
 
 # [License](LICENSE.md)
 
-All files in `delightful-anonymization` are under the GNU Lesser General Public License version 3.
+All files in `delightful-edifact` are under the GNU Lesser General Public License version 3.
 Please read files [`COPYING`]("COPYING") and [`COPYING.LESSER`]("COPYING.LESSER") for details.
 
 # Introduction
@@ -19,7 +20,7 @@ and approved and published by the [UNECE](https://www.unece.org/). For more info
 ## What is EDIFACT data-binding ?
 
 EDIFACT data-binding is the process of mapping and filling objects representing the structure of an EDIFACT message. In
-the special case of `delightful-edifact`, the objects are case classes and objects.
+the special case of `delightful-edifact`, the objects are Scala case classes and objects.
 
 ## What does `delightful-edifact` ?
 
@@ -52,14 +53,21 @@ UNT+13+1'
 UNZ+1+1'
 ```
 
-One can define it's grammar - [`PAORES_IA_93_1.xml`](src/test/resources/PAORES_IA_93_1.xml) and `delightful-edifact` takes
-care of generating the case classes and parser combinators.
+The structure of this message (aka "*the grammar*") is described in a XML file. Example:
+[`PAORES_IA_93_1.xml`](src/test/resources/PAORES_IA_93_1.xml).
+The XSD for this file is available [here](src/main/resources/xsd/edifact/grammar.xsd).
+
+`delightful-edifact` takes care of generating the case classes and parser combinators from the grammar file.
 
 ## How to define an EDIFACT grammar ?
 
 TODO
 
-## Acknowledgements
+# Contributing
+
+TODO
+
+# Acknowledgements
 
 - the [`scala-parser-combinators`](https://github.com/scala/scala-parser-combinators) library
 - the [`monocle`](https://www.optics.dev/Monocle/) library
