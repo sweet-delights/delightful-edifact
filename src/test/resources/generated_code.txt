@@ -9,10 +9,10 @@ case class PAORES_IA_93_1(
   unb: Option[Segment__UNB],
   ung: Option[Segment__UNG],
   unh: Option[Segment__UNH],
-  messageEntry: Option[Segment_S_2],
-  freeflowText: List[Segment_S_1],
-  errorOrWarningSection: List[Group_G_1],
-  singleCityPairInfo: List[Group_G_2]
+  messageEntry: Option[Segment_S2],
+  freeflowText: List[Segment_S1],
+  errorOrWarningSection: List[Group_G1],
+  singleCityPairInfo: List[Group_G2]
 ) {
   def isEmpty: Boolean =
     unb.isEmpty &&
@@ -24,28 +24,28 @@ case class PAORES_IA_93_1(
     singleCityPairInfo.isEmpty
 }
 
-case class Group_G_1(
-  errorOrWarningInfo: Segment_S_3,
-  textInformation: Option[Segment_S_1]
+case class Group_G1(
+  errorOrWarningInfo: Segment_S3,
+  textInformation: Option[Segment_S1]
 )
 
-case class Group_G_2(
-  boardoff: Segment_S_4,
-  flightInfo: List[Group_G_3]
+case class Group_G2(
+  boardoff: Segment_S4,
+  flightInfo: List[Group_G3]
 )
 
-case class Group_G_3(
-  basicFlightInfo: Segment_S_8,
-  infoOnClass: Option[Segment_S_6],
-  flightDetails: Option[Segment_S_5],
-  flightFreeflowText: Option[Segment_S_1],
-  trafficRestrictionDetails: Option[Segment_S_7],
-  flightErrorWarningSection: List[Group_G_4]
+case class Group_G3(
+  basicFlightInfo: Segment_S8,
+  infoOnClass: Option[Segment_S6],
+  flightDetails: Option[Segment_S5],
+  flightFreeflowText: Option[Segment_S1],
+  trafficRestrictionDetails: Option[Segment_S7],
+  flightErrorWarningSection: List[Group_G4]
 )
 
-case class Group_G_4(
-  flightErrorWarningInfo: Segment_S_3,
-  flightErrorWarningText: Option[Segment_S_1]
+case class Group_G4(
+  flightErrorWarningInfo: Segment_S3,
+  flightErrorWarningText: Option[Segment_S1]
 )
 
 case class Segment__UNB(
@@ -79,12 +79,12 @@ case class Segment__UNH(
   scenarioIdentification: Option[String]
 )
 
-case class Segment_S_5(
-  flightDetails: Option[Composite_C_4],
-  departureStation: Option[Composite_C_8],
-  arrivalStation: Option[Composite_C_8],
-  travellerTimeDetails: Option[Composite_C_6],
-  productFacilities: List[Composite_C_7]
+case class Segment_S5(
+  flightDetails: Option[Composite_C4],
+  departureStation: Option[Composite_C8],
+  arrivalStation: Option[Composite_C8],
+  travellerTimeDetails: Option[Composite_C6],
+  productFacilities: List[Composite_C7]
 ) {
   def isEmpty: Boolean =
     flightDetails.isEmpty &&
@@ -94,12 +94,12 @@ case class Segment_S_5(
     productFacilities.isEmpty
 }
 
-case class Segment_S_3(
-  error: Composite_C_3
+case class Segment_S3(
+  error: Composite_C3
 )
 
-case class Segment_S_1(
-  freeTextQualification: Option[Composite_C_1],
+case class Segment_S1(
+  freeTextQualification: Option[Composite_C1],
   freeText: List[String]
 ) {
   def isEmpty: Boolean =
@@ -107,12 +107,12 @@ case class Segment_S_1(
     freeText.isEmpty
 }
 
-case class Segment_S_2(
-  functionDetails: Composite_C_2,
+case class Segment_S2(
+  functionDetails: Composite_C2,
   responseType: Option[String]
 )
 
-case class Segment_S_4(
+case class Segment_S4(
   origin: Option[String],
   destination: Option[String]
 ) {
@@ -121,27 +121,27 @@ case class Segment_S_4(
     destination.isEmpty
 }
 
-case class Segment_S_6(
-  productClassDetail: List[Composite_C_9]
+case class Segment_S6(
+  productClassDetail: List[Composite_C9]
 ) {
   def isEmpty: Boolean =
     productClassDetail.isEmpty
 }
 
-case class Segment_S_7(
-  trafficRestriction: List[Composite_C_10]
+case class Segment_S7(
+  trafficRestriction: List[Composite_C10]
 ) {
   def isEmpty: Boolean =
     trafficRestriction.isEmpty
 }
 
-case class Segment_S_8(
-  flightDate: Composite_C_14,
-  boardPointDetails: Composite_C_15,
-  offPointDetails: Composite_C_15,
-  companyDetails: Option[Composite_C_11],
-  flightIdentification: Composite_C_12,
-  flightTypeDetails: Option[Composite_C_13],
+case class Segment_S8(
+  flightDate: Composite_C14,
+  boardPointDetails: Composite_C15,
+  offPointDetails: Composite_C15,
+  companyDetails: Option[Composite_C11],
+  flightIdentification: Composite_C12,
+  flightTypeDetails: Option[Composite_C13],
   itemNumber: Option[String]
 )
 
@@ -202,36 +202,36 @@ case class Composite__UNH_2(
   subType: Option[String]
 )
 
-case class Composite_C_2(
+case class Composite_C2(
   businessFunction: Option[String],
   actionCode: String,
   additionalActionCode: List[String]
 )
 
-case class Composite_C_9(
+case class Composite_C9(
   serviceClass: String,
   availabilityStatus: Option[String],
   modifier: List[String]
 )
 
-case class Composite_C_11(
+case class Composite_C11(
   marketingCompany: String,
   operatingCompany: Option[String]
 )
 
-case class Composite_C_12(
+case class Composite_C12(
   flightNumber: String,
   operationalSuffix: Option[String]
 )
 
-case class Composite_C_13(
+case class Composite_C13(
   flightIndicator: List[String]
 ) {
   def isEmpty: Boolean =
     flightIndicator.isEmpty
 }
 
-case class Composite_C_14(
+case class Composite_C14(
   depDate: String,
   depTime: String,
   arrDate: Option[String],
@@ -239,7 +239,7 @@ case class Composite_C_14(
   dateVariation: Option[String]
 )
 
-case class Composite_C_4(
+case class Composite_C4(
   typeOfAircraft: Option[String],
   numberOfStops: Option[String],
   legDuration: Option[String],
@@ -252,9 +252,9 @@ case class Composite_C_4(
     dayOfOperation.isEmpty
 }
 
-object Composite_C_5
+object Composite_C5
 
-case class Composite_C_6(
+case class Composite_C6(
   departureTime: Option[String],
   arrivalTime: Option[String]
 ) {
@@ -263,31 +263,31 @@ case class Composite_C_6(
     arrivalTime.isEmpty
 }
 
-case class Composite_C_7(
+case class Composite_C7(
   tpe: Option[String]
 ) {
   def isEmpty: Boolean =
     tpe.isEmpty
 }
 
-case class Composite_C_15(
+case class Composite_C15(
   trueLocationId: String
 )
 
-case class Composite_C_10(
+case class Composite_C10(
   code: Option[String]
 ) {
   def isEmpty: Boolean =
     code.isEmpty
 }
 
-case class Composite_C_1(
+case class Composite_C1(
   codedIndicator: String,
   typeOfInfo: Option[String],
   isoLanguageCode: Option[String]
 )
 
-case class Composite_C_8(
+case class Composite_C8(
   gate: Option[String],
   terminal: Option[String],
   concourseTerminal: Option[String]
@@ -298,7 +298,7 @@ case class Composite_C_8(
     concourseTerminal.isEmpty
 }
 
-case class Composite_C_3(
+case class Composite_C3(
   code: String,
   tpe: Option[String],
   listResponsible: Option[String]
@@ -355,10 +355,10 @@ abstract class EdifactParser extends BytesParsers {
     log(parse_Segment__UNB.?)("(S) unb") ~
     log(parse_Segment__UNG.?)("(S) ung") ~
     log(parse_Segment__UNH.?)("(S) unh") ~
-    log(parse_Segment_S_2.?)("(S) messageEntry") ~
-    log(repMN(parse_Segment_S_1, 0, 2))("(S) freeflowText") ~
-    log(repMN(parse_Group_G_1, 0, 5))("(G) errorOrWarningSection") ~
-    log(repMN(parse_Group_G_2, 0, 2))("(G) singleCityPairInfo") ^^ {
+    log(parse_Segment_S2.?)("(S) messageEntry") ~
+    log(repMN(parse_Segment_S1, 0, 2))("(S) freeflowText") ~
+    log(repMN(parse_Group_G1, 0, 5))("(G) errorOrWarningSection") ~
+    log(repMN(parse_Group_G2, 0, 2))("(G) singleCityPairInfo") ^^ {
     case unb ~ ung ~ unh ~ messageEntry ~ freeflowText ~ errorOrWarningSection ~ singleCityPairInfo =>
       PAORES_IA_93_1(
         unb,
@@ -371,35 +371,35 @@ abstract class EdifactParser extends BytesParsers {
       )
     }
 
-  lazy val parse_Group_G_1: Parser[Group_G_1] =
-    log(parse_Segment_S_3)("(S) errorOrWarningInfo") ~
-    log(parse_Segment_S_1.?)("(S) textInformation") ^^ {
+  lazy val parse_Group_G1: Parser[Group_G1] =
+    log(parse_Segment_S3)("(S) errorOrWarningInfo") ~
+    log(parse_Segment_S1.?)("(S) textInformation") ^^ {
     case errorOrWarningInfo ~ textInformation =>
-      Group_G_1(
+      Group_G1(
         errorOrWarningInfo,
         textInformation.filterNot(_.isEmpty)
       )
     }
 
-  lazy val parse_Group_G_2: Parser[Group_G_2] =
-    log(parse_Segment_S_4)("(S) boardoff") ~
-    log(repMN(parse_Group_G_3, 0, 99))("(G) flightInfo") ^^ {
+  lazy val parse_Group_G2: Parser[Group_G2] =
+    log(parse_Segment_S4)("(S) boardoff") ~
+    log(repMN(parse_Group_G3, 0, 99))("(G) flightInfo") ^^ {
     case boardoff ~ flightInfo =>
-      Group_G_2(
+      Group_G2(
         boardoff,
         flightInfo
       )
     }
 
-  lazy val parse_Group_G_3: Parser[Group_G_3] =
-    log(parse_Segment_S_8)("(S) basicFlightInfo") ~
-    log(parse_Segment_S_6.?)("(S) infoOnClass") ~
-    log(parse_Segment_S_5.?)("(S) flightDetails") ~
-    log(parse_Segment_S_1.?)("(S) flightFreeflowText") ~
-    log(parse_Segment_S_7.?)("(S) trafficRestrictionDetails") ~
-    log(repMN(parse_Group_G_4, 0, 5))("(G) flightErrorWarningSection") ^^ {
+  lazy val parse_Group_G3: Parser[Group_G3] =
+    log(parse_Segment_S8)("(S) basicFlightInfo") ~
+    log(parse_Segment_S6.?)("(S) infoOnClass") ~
+    log(parse_Segment_S5.?)("(S) flightDetails") ~
+    log(parse_Segment_S1.?)("(S) flightFreeflowText") ~
+    log(parse_Segment_S7.?)("(S) trafficRestrictionDetails") ~
+    log(repMN(parse_Group_G4, 0, 5))("(G) flightErrorWarningSection") ^^ {
     case basicFlightInfo ~ infoOnClass ~ flightDetails ~ flightFreeflowText ~ trafficRestrictionDetails ~ flightErrorWarningSection =>
-      Group_G_3(
+      Group_G3(
         basicFlightInfo,
         infoOnClass.filterNot(_.isEmpty),
         flightDetails.filterNot(_.isEmpty),
@@ -409,11 +409,11 @@ abstract class EdifactParser extends BytesParsers {
       )
     }
 
-  lazy val parse_Group_G_4: Parser[Group_G_4] =
-    log(parse_Segment_S_3)("(S) flightErrorWarningInfo") ~
-    log(parse_Segment_S_1.?)("(S) flightErrorWarningText") ^^ {
+  lazy val parse_Group_G4: Parser[Group_G4] =
+    log(parse_Segment_S3)("(S) flightErrorWarningInfo") ~
+    log(parse_Segment_S1.?)("(S) flightErrorWarningText") ^^ {
     case flightErrorWarningInfo ~ flightErrorWarningText =>
-      Group_G_4(
+      Group_G4(
         flightErrorWarningInfo,
         flightErrorWarningText.filterNot(_.isEmpty)
       )
@@ -481,17 +481,17 @@ abstract class EdifactParser extends BytesParsers {
       )
     }
 
-  lazy val parse_Segment_S_5: Parser[Segment_S_5] = "APD" ~>
-    log((plus ~> parse_Composite_C_4).?)("(C) flightDetails") ~
-    log((plus ~> parse_Composite_C_8).?)("(C) departureStation") ~
-    log((plus ~> parse_Composite_C_8).?)("(C) arrivalStation") ~
-    log((plus ~> parse_Composite_C_5).?)("(C) milageDetails") ~
-    log((plus ~> parse_Composite_C_6).?)("(C) travellerTimeDetails") ~
-    log((plus ~> parse_Composite_C_7).?)("(C) ") ~
-    log((plus ~> parse_Composite_C_7).?)("(C) ") ~
-    log(repMN((plus ~> parse_Composite_C_7.?), 0, 10))("(C) productFacilities") <~ quote ^^ {
+  lazy val parse_Segment_S5: Parser[Segment_S5] = "APD" ~>
+    log((plus ~> parse_Composite_C4).?)("(C) flightDetails") ~
+    log((plus ~> parse_Composite_C8).?)("(C) departureStation") ~
+    log((plus ~> parse_Composite_C8).?)("(C) arrivalStation") ~
+    log((plus ~> parse_Composite_C5).?)("(C) milageDetails") ~
+    log((plus ~> parse_Composite_C6).?)("(C) travellerTimeDetails") ~
+    log((plus ~> parse_Composite_C7).?)("(C) ") ~
+    log((plus ~> parse_Composite_C7).?)("(C) ") ~
+    log(repMN((plus ~> parse_Composite_C7.?), 0, 10))("(C) productFacilities") <~ quote ^^ {
     case flightDetails ~ departureStation ~ arrivalStation ~ _ ~ travellerTimeDetails ~ _ ~ _ ~ productFacilities =>
-      Segment_S_5(
+      Segment_S5(
         flightDetails.filterNot(_.isEmpty),
         departureStation.filterNot(_.isEmpty),
         arrivalStation.filterNot(_.isEmpty),
@@ -500,71 +500,71 @@ abstract class EdifactParser extends BytesParsers {
       )
     }
 
-  lazy val parse_Segment_S_3: Parser[Segment_S_3] = "ERC" ~>
-    log((plus ~> parse_Composite_C_3))("(C) error") <~ quote ^^ {
+  lazy val parse_Segment_S3: Parser[Segment_S3] = "ERC" ~>
+    log((plus ~> parse_Composite_C3))("(C) error") <~ quote ^^ {
     case error =>
-      Segment_S_3(
+      Segment_S3(
         error
       )
     }
 
-  lazy val parse_Segment_S_1: Parser[Segment_S_1] = "IFT" ~>
-    log((plus ~> parse_Composite_C_1).?)("(C) freeTextQualification") ~
+  lazy val parse_Segment_S1: Parser[Segment_S1] = "IFT" ~>
+    log((plus ~> parse_Composite_C1).?)("(C) freeTextQualification") ~
     log(repMN((plus ~> parse_Data).?, 0, 99))("(D) freeText") <~ quote ^^ {
     case freeTextQualification ~ freeText =>
-      Segment_S_1(
+      Segment_S1(
         freeTextQualification,
         freeText.flatten.reverse.dropWhile(_.trim.isEmpty).reverse
       )
     }
 
-  lazy val parse_Segment_S_2: Parser[Segment_S_2] = "MSG" ~>
-    log((plus ~> parse_Composite_C_2))("(C) functionDetails") ~
+  lazy val parse_Segment_S2: Parser[Segment_S2] = "MSG" ~>
+    log((plus ~> parse_Composite_C2))("(C) functionDetails") ~
     log((plus ~> parse_Data).?)("(D) responseType") <~ quote ^^ {
     case functionDetails ~ responseType =>
-      Segment_S_2(
+      Segment_S2(
         functionDetails,
         responseType.filterNot(_.isEmpty)
       )
     }
 
-  lazy val parse_Segment_S_4: Parser[Segment_S_4] = "ODI" ~>
+  lazy val parse_Segment_S4: Parser[Segment_S4] = "ODI" ~>
     log((plus ~> parse_Data).?)("(D) origin") ~
     log((plus ~> parse_Data).?)("(D) destination") <~ quote ^^ {
     case origin ~ destination =>
-      Segment_S_4(
+      Segment_S4(
         origin.filterNot(_.isEmpty),
         destination.filterNot(_.isEmpty)
       )
     }
 
-  lazy val parse_Segment_S_6: Parser[Segment_S_6] = "PDI" ~>
+  lazy val parse_Segment_S6: Parser[Segment_S6] = "PDI" ~>
     log((plus ~> parse_Data).?)("(D) ") ~
-    log(repMN((plus ~> parse_Composite_C_9), 1, 26))("(C) productClassDetail") <~ quote ^^ {
+    log(repMN((plus ~> parse_Composite_C9), 1, 26))("(C) productClassDetail") <~ quote ^^ {
     case _ ~ productClassDetail =>
-      Segment_S_6(
+      Segment_S6(
         productClassDetail
       )
     }
 
-  lazy val parse_Segment_S_7: Parser[Segment_S_7] = "TRF" ~>
-    log(repMN((plus ~> parse_Composite_C_10.?), 0, 5))("(C) trafficRestriction") <~ quote ^^ {
+  lazy val parse_Segment_S7: Parser[Segment_S7] = "TRF" ~>
+    log(repMN((plus ~> parse_Composite_C10.?), 0, 5))("(C) trafficRestriction") <~ quote ^^ {
     case trafficRestriction =>
-      Segment_S_7(
+      Segment_S7(
         trafficRestriction.flatten.reverse.dropWhile(_.isEmpty).reverse
       )
     }
 
-  lazy val parse_Segment_S_8: Parser[Segment_S_8] = "TVL" ~>
-    log((plus ~> parse_Composite_C_14))("(C) flightDate") ~
-    log((plus ~> parse_Composite_C_15))("(C) boardPointDetails") ~
-    log((plus ~> parse_Composite_C_15))("(C) offPointDetails") ~
-    log((plus ~> parse_Composite_C_11).?)("(C) companyDetails") ~
-    log((plus ~> parse_Composite_C_12))("(C) flightIdentification") ~
-    log((plus ~> parse_Composite_C_13).?)("(C) flightTypeDetails") ~
+  lazy val parse_Segment_S8: Parser[Segment_S8] = "TVL" ~>
+    log((plus ~> parse_Composite_C14))("(C) flightDate") ~
+    log((plus ~> parse_Composite_C15))("(C) boardPointDetails") ~
+    log((plus ~> parse_Composite_C15))("(C) offPointDetails") ~
+    log((plus ~> parse_Composite_C11).?)("(C) companyDetails") ~
+    log((plus ~> parse_Composite_C12))("(C) flightIdentification") ~
+    log((plus ~> parse_Composite_C13).?)("(C) flightTypeDetails") ~
     log((plus ~> parse_Data).?)("(D) itemNumber") <~ quote ^^ {
     case flightDate ~ boardPointDetails ~ offPointDetails ~ companyDetails ~ flightIdentification ~ flightTypeDetails ~ itemNumber =>
-      Segment_S_8(
+      Segment_S8(
         flightDate,
         boardPointDetails,
         offPointDetails,
@@ -689,69 +689,69 @@ abstract class EdifactParser extends BytesParsers {
       )
     }
 
-  lazy val parse_Composite_C_2: Parser[Composite_C_2] =
+  lazy val parse_Composite_C2: Parser[Composite_C2] =
     log(parse_Data.?)("(D) businessFunction") ~
     log((colon ~> parse_Data))("(D) actionCode") ~
     log((colon ~> parse_Data).?)("(D) ") ~
     log(repMN((colon ~> parse_Data).?, 0, 9))("(D) additionalActionCode") ^^ {
     case businessFunction ~ actionCode ~ _ ~ additionalActionCode =>
-      Composite_C_2(
+      Composite_C2(
         businessFunction.filterNot(_.isEmpty),
         actionCode,
         additionalActionCode.flatten.reverse.dropWhile(_.trim.isEmpty).reverse
       )
     }
 
-  lazy val parse_Composite_C_9: Parser[Composite_C_9] =
+  lazy val parse_Composite_C9: Parser[Composite_C9] =
     log(parse_Data)("(D) serviceClass") ~
     log((colon ~> parse_Data).?)("(D) availabilityStatus") ~
     log((colon ~> parse_Data).?)("(D) ") ~
     log(repMN((colon ~> parse_Data).?, 0, 2))("(D) modifier") ^^ {
     case serviceClass ~ availabilityStatus ~ _ ~ modifier =>
-      Composite_C_9(
+      Composite_C9(
         serviceClass,
         availabilityStatus.filterNot(_.isEmpty),
         modifier.flatten.reverse.dropWhile(_.trim.isEmpty).reverse
       )
     }
 
-  lazy val parse_Composite_C_11: Parser[Composite_C_11] =
+  lazy val parse_Composite_C11: Parser[Composite_C11] =
     log(parse_Data)("(D) marketingCompany") ~
     log((colon ~> parse_Data).?)("(D) operatingCompany") ^^ {
     case marketingCompany ~ operatingCompany =>
-      Composite_C_11(
+      Composite_C11(
         marketingCompany,
         operatingCompany.filterNot(_.isEmpty)
       )
     }
 
-  lazy val parse_Composite_C_12: Parser[Composite_C_12] =
+  lazy val parse_Composite_C12: Parser[Composite_C12] =
     log(parse_Data)("(D) flightNumber") ~
     log((colon ~> parse_Data).?)("(D) bookingClass") ~
     log((colon ~> parse_Data).?)("(D) operationalSuffix") ^^ {
     case flightNumber ~ _ ~ operationalSuffix =>
-      Composite_C_12(
+      Composite_C12(
         flightNumber,
         operationalSuffix.filterNot(_.isEmpty)
       )
     }
 
-  lazy val parse_Composite_C_13: Parser[Composite_C_13] =
+  lazy val parse_Composite_C13: Parser[Composite_C13] =
     log(repMN(parse_Data.?, 0, 9))("(D) flightIndicator") ^^ {
     case flightIndicator =>
-      Composite_C_13(
+      Composite_C13(
         flightIndicator.flatten.reverse.dropWhile(_.trim.isEmpty).reverse
       )
     }
 
-  lazy val parse_Composite_C_14: Parser[Composite_C_14] =
+  lazy val parse_Composite_C14: Parser[Composite_C14] =
     log(parse_Data)("(D) depDate") ~
     log((colon ~> parse_Data))("(D) depTime") ~
     log((colon ~> parse_Data).?)("(D) arrDate") ~
     log((colon ~> parse_Data))("(D) arrTime") ~
     log((colon ~> parse_Data).?)("(D) dateVariation") ^^ {
     case depDate ~ depTime ~ arrDate ~ arrTime ~ dateVariation =>
-      Composite_C_14(
+      Composite_C14(
         depDate,
         depTime,
         arrDate.filterNot(_.isEmpty),
@@ -760,14 +760,14 @@ abstract class EdifactParser extends BytesParsers {
       )
     }
 
-  lazy val parse_Composite_C_4: Parser[Composite_C_4] =
+  lazy val parse_Composite_C4: Parser[Composite_C4] =
     log(parse_Data.?)("(D) typeOfAircraft") ~
     log((colon ~> parse_Data).?)("(D) numberOfStops") ~
     log((colon ~> parse_Data).?)("(D) legDuration") ~
     log((colon ~> parse_Data).?)("(D) onTimePercentage") ~
     log((colon ~> parse_Data).?)("(D) dayOfOperation") ^^ {
     case typeOfAircraft ~ numberOfStops ~ legDuration ~ _ ~ dayOfOperation =>
-      Composite_C_4(
+      Composite_C4(
         typeOfAircraft.filterNot(_.isEmpty),
         numberOfStops.filterNot(_.isEmpty),
         legDuration.filterNot(_.isEmpty),
@@ -775,74 +775,74 @@ abstract class EdifactParser extends BytesParsers {
       )
     }
 
-  lazy val parse_Composite_C_5: Parser[Composite_C_5.type] = success(Composite_C_5)
+  lazy val parse_Composite_C5: Parser[Composite_C5.type] = success(Composite_C5)
 
-  lazy val parse_Composite_C_6: Parser[Composite_C_6] =
+  lazy val parse_Composite_C6: Parser[Composite_C6] =
     log(parse_Data.?)("(D) departureTime") ~
     log((colon ~> parse_Data).?)("(D) arrivalTime") ^^ {
     case departureTime ~ arrivalTime =>
-      Composite_C_6(
+      Composite_C6(
         departureTime.filterNot(_.isEmpty),
         arrivalTime.filterNot(_.isEmpty)
       )
     }
 
-  lazy val parse_Composite_C_7: Parser[Composite_C_7] =
+  lazy val parse_Composite_C7: Parser[Composite_C7] =
     log(parse_Data.?)("(D) tpe") ^^ {
     case tpe =>
-      Composite_C_7(
+      Composite_C7(
         tpe.filterNot(_.isEmpty)
       )
     }
 
-  lazy val parse_Composite_C_15: Parser[Composite_C_15] =
+  lazy val parse_Composite_C15: Parser[Composite_C15] =
     log(parse_Data)("(D) trueLocationId") ^^ {
     case trueLocationId =>
-      Composite_C_15(
+      Composite_C15(
         trueLocationId
       )
     }
 
-  lazy val parse_Composite_C_10: Parser[Composite_C_10] =
+  lazy val parse_Composite_C10: Parser[Composite_C10] =
     log(parse_Data.?)("(D) code") ^^ {
     case code =>
-      Composite_C_10(
+      Composite_C10(
         code.filterNot(_.isEmpty)
       )
     }
 
-  lazy val parse_Composite_C_1: Parser[Composite_C_1] =
+  lazy val parse_Composite_C1: Parser[Composite_C1] =
     log(parse_Data)("(D) codedIndicator") ~
     log((colon ~> parse_Data).?)("(D) typeOfInfo") ~
     log((colon ~> parse_Data).?)("(D) ") ~
     log((colon ~> parse_Data).?)("(D) ") ~
     log((colon ~> parse_Data).?)("(D) isoLanguageCode") ^^ {
     case codedIndicator ~ typeOfInfo ~ _ ~ _ ~ isoLanguageCode =>
-      Composite_C_1(
+      Composite_C1(
         codedIndicator,
         typeOfInfo.filterNot(_.isEmpty),
         isoLanguageCode.filterNot(_.isEmpty)
       )
     }
 
-  lazy val parse_Composite_C_8: Parser[Composite_C_8] =
+  lazy val parse_Composite_C8: Parser[Composite_C8] =
     log(parse_Data.?)("(D) gate") ~
     log((colon ~> parse_Data).?)("(D) terminal") ~
     log((colon ~> parse_Data).?)("(D) concourseTerminal") ^^ {
     case gate ~ terminal ~ concourseTerminal =>
-      Composite_C_8(
+      Composite_C8(
         gate.filterNot(_.isEmpty),
         terminal.filterNot(_.isEmpty),
         concourseTerminal.filterNot(_.isEmpty)
       )
     }
 
-  lazy val parse_Composite_C_3: Parser[Composite_C_3] =
+  lazy val parse_Composite_C3: Parser[Composite_C3] =
     log(parse_Data)("(D) code") ~
     log((colon ~> parse_Data).?)("(D) tpe") ~
     log((colon ~> parse_Data).?)("(D) listResponsible") ^^ {
     case code ~ tpe ~ listResponsible =>
-      Composite_C_3(
+      Composite_C3(
         code,
         tpe.filterNot(_.isEmpty),
         listResponsible.filterNot(_.isEmpty)
