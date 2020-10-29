@@ -21,8 +21,11 @@ import sbtrelease.ReleasePlugin.autoImport.{releaseCommitMessage, releaseNextVer
 lazy val Common = config("common") extend (Compile)
 lazy val Edifact = config("xsd") extend (Compile)
 
+lazy val scala212 = "2.12.12"
+lazy val scala213 = "2.13.3"
+
 lazy val commonSettings = Seq(
-  organization := "sweet-delights",
+  organization := "org.sweet-delights",
   name := "delightful-edifact",
   homepage := Option(url("https://github.com/sweet-delights/delightful-edifact")),
   licenses := List("GNU Lesser General Public License Version 3" -> url("https://www.gnu.org/licenses/lgpl-3.0.txt")),
@@ -36,8 +39,7 @@ lazy val commonSettings = Seq(
       url = url("https://github.com/pgrandjean")
     )
   ),
-  scalaVersion := "2.12.12",
-  crossScalaVersions := Seq("2.12.12", "2.13.3"),
+  scalaVersion := scala212,
   libraryDependencies ++= Seq(
     "com.github.julien-truffaut" %% "monocle-core"             % "2.0.3",
     "com.github.julien-truffaut" %% "monocle-macro"            % "2.0.3",
@@ -48,10 +50,16 @@ lazy val commonSettings = Seq(
     "io.spray"                   %% "spray-json"               % "1.3.5" % "test",
     "org.specs2"                 %% "specs2-core"              % "4.5.1" % "test"
   ),
-  publishArtifact in (Compile, packageDoc) := false,
-  publishConfiguration := publishConfiguration.value.withOverwrite(true),
-  publishLocalConfiguration := publishLocalConfiguration.value.withOverwrite(true),
-  releaseCrossBuild := true,
+  publishMavenStyle := true,
+  publishTo := Some {
+    val nexus = "https://oss.sonatype.org/"
+    if (isSnapshot.value)
+      "snapshots" at nexus + "content/repositories/snapshots"
+    else
+      "releases" at nexus + "service/local/staging/deploy/maven2"
+  },
+  // sbt-release
+//  releaseCrossBuild := true,
   releaseVersion := { ver =>
     val bumpedVersion = Version(ver)
       .map { v =>
@@ -70,29 +78,62 @@ lazy val commonSettings = Seq(
   bugfixRegexes := List(s"${Pattern.quote("[patch]")}.*").map(_.r),
   minorRegexes := List(s"${Pattern.quote("[minor]")}.*").map(_.r),
   majorRegexes := List(s"${Pattern.quote("[major]")}.*").map(_.r),
-  // releasePublishArtifactsAction := publishLocal.value,
   releaseProcess := Seq[ReleaseStep](
     checkSnapshotDependencies,
     inquireVersions,
+    runClean,
+    releaseStepCommandAndRemaining("api_2_12/test"),
+    releaseStepCommandAndRemaining("api_2_13/test"),
+    releaseStepCommandAndRemaining("sbtPlugin/scripted"),
     setReleaseVersion,
     commitReleaseVersion,
     tagRelease,
-    runClean,
-    runTest,
-    publishArtifacts,
+    releaseStepCommandAndRemaining("api_2_12/publishSigned"),
+    releaseStepCommandAndRemaining("api_2_13/publishSigned"),
+    releaseStepCommandAndRemaining("sbtPlugin/publishSigned"),
     setNextVersion,
     commitNextVersion,
+    releaseStepCommand("api_2_12/sonatypeRelease"),
+    releaseStepCommand("api_2_13/sonatypeRelease"),
+    releaseStepCommand("sbtPlugin/sonatypeRelease"),
     pushChanges
   ),
   scalafmtOnCompile := true
 )
 
-// lazy val scalaXml = "org.scala-lang.modules" %% "scala-xml" % "1.0.2"
-// lazy val scalaParser = "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.1"
-
-lazy val root = (project in file("."))
+lazy val api = (project in file("api"))
   .settings(commonSettings: _*)
   .settings(codeGenSettings: _*)
+  .enablePlugins(BuildInfoPlugin)
+  .settings(
+    buildInfoKeys := Seq[BuildInfoKey](organization, name, version, scalaVersion, sbtVersion),
+    buildInfoPackage := "sweet.delights.edifact"
+  )
+  .cross
+
+lazy val api_2_12 = api(scala212)
+lazy val api_2_13 = api(scala213)
+
+lazy val sbtPlugin = (project in file("sbt"))
+  .enablePlugins(SbtPlugin)
+  .dependsOn(api_2_12)
+  .settings(
+    commonSettings,
+    name := "sbt-delightful-edifact",
+    description := "SBT plugin to run delightful-edifact",
+    scriptedLaunchOpts := {
+      scriptedLaunchOpts.value ++
+        Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
+    },
+    scriptedBufferLog := false,
+    scripted := scripted.dependsOn(publishLocal in api_2_12).evaluated
+  )
+
+lazy val root = (project in file("."))
+  .aggregate(api_2_12)
+  .aggregate(api_2_13)
+  .aggregate(sbtPlugin)
+  .settings(commonSettings: _*)
 
 def codeGenSettings: Seq[Def.Setting[_]] =
   inConfig(Edifact)(baseScalaxbSettings ++ inTask(scalaxb)(customScalaxbSettings("edifact"))) ++
@@ -102,7 +143,7 @@ def codeGenSettings: Seq[Def.Setting[_]] =
     )
 
 def customScalaxbSettings(base: String): Seq[Def.Setting[_]] = Seq(
-  scalaxbXsdSource := file("src/main/resources/xsd"),
+  scalaxbXsdSource := file("api/src/main/resources/xsd"),
   sourceManaged := (sourceManaged in Compile).value / "sbt-scalaxb" / base,
   scalaxbGenerateRuntime := false,
   sources := listOrdered(scalaxbXsdSource.value / base, ".xsd"),
@@ -123,4 +164,10 @@ def listFiles(f: File, suffix: String): Seq[File] = {
   val files = all.filter(_.isFile).filter(_.getName.endsWith(suffix))
   val dirs = all.filter(_.isDirectory)
   files ++ dirs.flatMap(listFiles(_, suffix))
+}
+
+def crossReleaseStepCommandAndRemaining(scalaVersions: Seq[String])(releaseSteps: Seq[ReleaseStep]): Seq[ReleaseStep] = {
+  scalaVersions.map { scalaVersion =>
+    ReleaseStep(releaseStepCommandAndRemaining(s"++${scalaVersion}!"))
+  } ++ releaseSteps
 }

@@ -14,7 +14,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package sweet.delights.edifact
 
-import java.io.FileOutputStream
+import java.io.{File, FileOutputStream}
 
 import scala.io.Source
 import org.specs2.mutable.Specification
@@ -23,9 +23,14 @@ class CodeGeneratorSpec extends Specification {
 
   "CodeGenerator" should {
     "generate code" in {
-      val props = Map("packageName" -> "sweet.delights.edifact", "mode" -> "text", "debug" -> "true")
-      val code = new CodeGenerator(props).compile("src/test/resources/PAORES_IA_93_1.xml")
-      val expected = Source.fromFile("src/test/resources/generated_code.txt", "UTF-8").getLines().mkString("\n")
+      val config = Config(
+        input = new File("api/src/test/resources/PAORES_IA_93_1.xml"),
+        packageName = "sweet.delights.edifact",
+        mode = Mode.Text,
+        debug = true
+      )
+      val code = CodeGenerator(config).compile
+      val expected = Source.fromFile("api/src/test/resources/generated_code.txt", "UTF-8").getLines().mkString("\n")
 
 //      val os = new FileOutputStream("toto.txt")
 //      os.write(code.getBytes("UTF-8"))

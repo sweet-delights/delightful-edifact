@@ -12,4 +12,11 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-version in ThisBuild := "0.0.1-SNAPSHOT"
+scalaVersion := "2.12.12"
+name := "foo"
+libraryDependencies ++= Seq(
+  "org.sweet-delights"     %% "delightful-edifact"       % s"${sys.props.getOrElse("plugin.version", "0")}",
+  "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2"
+)
+enablePlugins(DelightfulEdifactPlugin)
+delightfulEdifactPackageName in (Compile, delightfulEdifact) := "hello.world"

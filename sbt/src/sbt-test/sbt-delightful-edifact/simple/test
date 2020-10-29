@@ -1,0 +1,2 @@
+> run
+$ exists target/scala-2.12/src_managed/main/sbt-delightful-edifact/PAORES_IA_93_1.scala

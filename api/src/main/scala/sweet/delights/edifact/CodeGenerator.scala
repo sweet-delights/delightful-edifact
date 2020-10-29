@@ -24,23 +24,22 @@ import sweet.delights.xsd.edifact.{Composite, CompositeRef, DataRef, Datum, Def,
   * - debug: true/false, adds loggs for debugging purposes
   * - mode: text/binary, determines the values of EDIFACT separators
   *
-  * @param props collection of key/value properties
+  * @param config configuration
   */
-class CodeGenerator(props: Map[String, String] = Map.empty) {
+case class CodeGenerator(config: Config) {
 
-  private lazy val indent = "  "
+  private lazy val indent = config.indent
 
-  private lazy val debug = props.get("debug").exists(_.toBoolean)
+  private lazy val debug = config.debug
 
   /**
     * Main entry point. Takes a grammar file in input (as a URI)
     * and outputs the generated code as a String.
     *
-    * @param uri the location of a the grammar file
     * @return generated code
     */
-  def compile(uri: String): String = {
-    val grammar = GrammarParser.parseGrammar(uri)
+  def compile: String = {
+    val grammar = GrammarParser.parseGrammar(config.input)
     val dictionary = Dictionary(grammar)
 
     val lines =
@@ -78,13 +77,8 @@ class CodeGenerator(props: Map[String, String] = Map.empty) {
   }
 
   private def toPackage(): String =
-    props
-      .get("packageName")
-      .map { packageName =>
-        s"""package ${packageName}
-         |""".stripMargin
-      }
-      .getOrElse("")
+    s"""package ${config.packageName}
+     |""".stripMargin
 
   private def toImports(): String =
     s"""import scala.annotation.tailrec
@@ -192,25 +186,30 @@ class CodeGenerator(props: Map[String, String] = Map.empty) {
          |
          |  def repMN[T](p: Parser[T], m: Int, n: Int): Parser[List[T]] = repMN[T](p, success(()), m, n)
          |
-         |  lazy val quote: Parser[Byte] = ${if (props.get("mode").exists(_ == "text")) """'\''.toByte""" else "0x1c.toByte"}
+         |  lazy val quote: Parser[Byte] = ${separators(0)}
          |
-         |  lazy val plus: Parser[Byte] = ${if (props.get("mode").exists(_ == "text")) "'+'.toByte" else "0x1d.toByte"}
+         |  lazy val plus: Parser[Byte] = ${separators(1)}
          |
-         |  lazy val colon: Parser[Byte] = ${if (props.get("mode").exists(_ == "text")) "':'.toByte" else "0x1f.toByte"}
+         |  lazy val colon: Parser[Byte] = ${separators(2)}
          |
-         |  lazy val star: Parser[Byte] = ${if (props.get("mode").exists(_ == "text")) "'*'.toByte" else "0x19.toByte"}
+         |  lazy val star: Parser[Byte] = ${separators(3)}
          |
          |  lazy val parse_Data /*(m: Int, n: Int)*/: Parser[String] = notIn(
          |    Set[Byte](
-         |      ${if (props.get("mode").exists(_ == "text")) """'\''.toByte""" else "0x1c.toByte"},
-         |      ${if (props.get("mode").exists(_ == "text")) "'+'.toByte" else "0x1d.toByte"},
-         |      ${if (props.get("mode").exists(_ == "text")) "':'.toByte" else "0x1f.toByte"},
-         |      ${if (props.get("mode").exists(_ == "text")) "'*'.toByte" else "0x19.toByte"}
+         |      ${separators(0)},
+         |      ${separators(1)},
+         |      ${separators(2)},
+         |      ${separators(3)}
          |    )
          |  ) ^^ { arr =>
          |    new String(arr, "UTF-8")
          |  }
          |""".stripMargin
+  }
+
+  private def separators: Array[String] = config.mode match {
+    case Mode.Text => CodeGenerator.separatorsText
+    case Mode.Binary => CodeGenerator.separatorsBinary
   }
 
   private def toCombinatorsEnd(grammar: Grammar): String =
@@ -375,4 +374,12 @@ class CodeGenerator(props: Map[String, String] = Map.empty) {
   private def nullable(refs: List[Ref]): Boolean = refs.forall { ref =>
     ref.repetition > 1 || ref.status == "C" || ref.status == "N/A"
   }
+}
+
+object CodeGenerator {
+
+  private lazy val separatorsBinary = Array("0x1c.toByte", "0x1d.toByte", "0x1f.toByte", "0x19.toByte")
+
+  private lazy val separatorsText = Array("""'\''.toByte""", "'+'.toByte", "':'.toByte", "'*'.toByte")
+
 }

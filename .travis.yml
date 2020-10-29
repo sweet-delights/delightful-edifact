@@ -6,9 +6,9 @@ jdk:
   - oraclejdk8
 
 scala:
-  - 2.12.12
   - 2.13.3
 
-stages:
-  - name: test
-
+script:
+  - sbt api_2_12/test
+  - sbt api_2_13/test
+  - sbt sbtPlugin/scripted

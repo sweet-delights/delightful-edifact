@@ -6,7 +6,7 @@
 /.classpath
 /.project
 /project/project
-/project/target
+/*/target
 /.ensime
 /.ensime_cache
 /.git

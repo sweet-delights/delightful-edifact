@@ -12,4 +12,8 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-version in ThisBuild := "0.0.1-SNAPSHOT"
+sys.props.get("plugin.version") match {
+  case Some(x) => addSbtPlugin("org.sweet-delights" % "sbt-delightful-edifact" % x)
+  case _ => sys.error("""|The system property 'plugin.version' is not defined.
+                         |Specify this property using the scriptedLaunchOpts -D.""".stripMargin)
+}

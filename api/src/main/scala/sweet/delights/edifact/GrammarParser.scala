@@ -14,6 +14,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package sweet.delights.edifact
 
+import java.io.File
+
 import monocle.function.all._
 import monocle.macros.GenLens
 import scalaxb.DataRecord
@@ -66,8 +68,8 @@ object GrammarParser {
 
   private lazy val grammarDataLens = dataLens composeLens datumLens
 
-  def parseGrammar(uri: String): Grammar = {
-    val xml = scala.xml.XML.load(uri)
+  def parseGrammar(file: File): Grammar = {
+    val xml = scala.xml.XML.loadFile(file)
     val grammar = scalaxb.fromXML[Grammar](xml)
 
     (enrich andThen clean)(grammar)
