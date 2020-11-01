@@ -84,8 +84,8 @@ UNZ+1+1'
 ```
 
 The structure of this message (aka "*the grammar*") is described in a XML file. Example:
-[`PAORES_IA_93_1.xml`](src/test/resources/PAORES_IA_93_1.xml).
-The XSD for this file is available [here](src/main/resources/xsd/edifact/grammar.xsd).
+[`PAORES_IA_93_1.xml`](api/src/test/resources/PAORES_IA_93_1.xml).
+The XSD for this file is available [here](api/src/main/resources/xsd/edifact/grammar.xsd).
 
 `delightful-edifact` takes care of generating the case classes and parser combinators from the grammar file.
 
@@ -97,6 +97,6 @@ To contribute, please feel free to open an issue and submit pull requests.
 
 ## Acknowledgements
 
-- the [`scalaxb`] tool for inspiration and example for SBT plugin code
+- the [`scalaxb`](https://scalaxb.org/) tool for inspiration and example for SBT plugin code
 - the [`scala-parser-combinators`](https://github.com/scala/scala-parser-combinators) library
 - the [`monocle`](https://www.optics.dev/Monocle/) library
