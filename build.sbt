@@ -93,9 +93,7 @@ lazy val commonSettings = Seq(
     releaseStepCommandAndRemaining("sbtPlugin/publishSigned"),
     setNextVersion,
     commitNextVersion,
-    releaseStepCommand("api_2_12/sonatypeRelease"),
-    releaseStepCommand("api_2_13/sonatypeRelease"),
-    releaseStepCommand("sbtPlugin/sonatypeRelease"),
+    releaseStepCommand("sonatypeRelease"),
     pushChanges
   ),
   scalafmtOnCompile := true
