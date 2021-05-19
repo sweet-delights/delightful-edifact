@@ -16,7 +16,7 @@ scalaVersion := "2.12.13"
 name := "foo"
 libraryDependencies ++= Seq(
   "org.sweet-delights"     %% "delightful-edifact"       % s"${sys.props.getOrElse("plugin.version", "0")}",
-  "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2"
+  "org.scala-lang.modules" %% "scala-parser-combinators" % "2.0.0"
 )
 enablePlugins(DelightfulEdifactPlugin)
 delightfulEdifactPackageName in (Compile, delightfulEdifact) := "hello.world"
