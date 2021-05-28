@@ -12,7 +12,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
-scalaVersion := "2.12.13"
+scalaVersion := "2.12.14"
 name := "foo"
 libraryDependencies ++= Seq(
   "org.sweet-delights"     %% "delightful-edifact"       % s"${sys.props.getOrElse("plugin.version", "0")}",
