@@ -89,6 +89,33 @@ The XSD for this file is available [here](api/src/main/resources/xsd/edifact/gra
 
 `delightful-edifact` takes care of generating the case classes and parser combinators from the grammar file.
 
+Here is a code sample on how to parse the example above:
+
+```scala
+import hello.world.EdifactParser // package containing the generated EdifactParser object
+                                 // is customizable
+
+val binary: Array[Byte] = ... // the EDIFACT message to be decoded, in binary format
+
+val paoresOpt = EdifactParser.parse_PAORES_IA_93_1(binary) match {
+  case EdifactParser.Success(paores, _) => Some(paores)
+  case EdifactParser.Failure(_, _) => None
+  case EdifactParser.Error(_, _) => None
+}
+
+// extract some information
+val itinerary = for {
+  paores <- paoresOpt.toList
+  singleCityPairInfo <- poares.singleCityPairInfo
+  flightInfo <- singleCityPairInfo.flightInfo
+  boardPoint = flightInfo.basicFlightInfo.boardPointDetails.trueLocationId
+  offPoint = flightInfo.basicFlightInfo.offPointDetails.trueLocationId
+} yield (boardPoint, offPoint)
+
+println(itinerary) // List((FRA, JFK), (JFK, MIA))
+```
+
+
 ## Contributing
 
 This project follows the *Typelevel Code of Conduct*, available [here](https://typelevel.org/code-of-conduct.html).

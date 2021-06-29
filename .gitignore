@@ -10,5 +10,6 @@
 /.ensime
 /.ensime_cache
 /.git
+/.bsp
 # text editor temp files
 *~

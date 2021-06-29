@@ -62,12 +62,21 @@ class CodeGeneratorSpec extends Specification {
           |UNZ+1+1'""".stripMargin.replaceAll("\n", "")
 
       val parsed = EdifactParser.parse_PAORES_IA_93_1(paores.getBytes("UTF-8")) match {
-        case EdifactParser.Success(iflirr, _) => Some(iflirr)
+        case EdifactParser.Success(paores, _) => Some(paores)
         case EdifactParser.Failure(_, _) => None
         case EdifactParser.Error(_, _) => None
       }
 
       parsed must beSome
+
+      val itinerary = for {
+        singleCityPairInfo <- parsed.get.singleCityPairInfo
+        flightInfo <- singleCityPairInfo.flightInfo
+        boardPoint = flightInfo.basicFlightInfo.boardPointDetails.trueLocationId
+        offPoint = flightInfo.basicFlightInfo.offPointDetails.trueLocationId
+      } yield (boardPoint, offPoint)
+
+      itinerary mustEqual List(("FRA", "JFK"), ("JFK", "MIA"))
     }
   }
 }
