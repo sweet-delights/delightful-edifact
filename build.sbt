@@ -22,7 +22,7 @@ lazy val Common = config("common") extend (Compile)
 lazy val Edifact = config("xsd") extend (Compile)
 
 lazy val scala212 = "2.12.15"
-lazy val scala213 = "2.13.7"
+lazy val scala213 = "2.13.8"
 
 lazy val commonSettings = Seq(
   organization := "org.sweet-delights",
