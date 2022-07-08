@@ -48,7 +48,7 @@ lazy val commonSettings = Seq(
     "org.slf4j"                  % "slf4j-api"                 % "1.7.36",
     "org.slf4j"                  % "slf4j-log4j12"             % "1.7.36" % "test",
     "io.spray"                   %% "spray-json"               % "1.3.6" % "test",
-    "org.specs2"                 %% "specs2-core"              % "4.15.0" % "test"
+    "org.specs2"                 %% "specs2-core"              % "4.16.1" % "test"
   ),
   publishMavenStyle := true,
   publishTo := Some {
