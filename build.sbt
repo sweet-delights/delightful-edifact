@@ -22,7 +22,7 @@ lazy val Common = config("common") extend (Compile)
 lazy val Edifact = config("xsd") extend (Compile)
 
 lazy val scala212 = "2.12.17"
-lazy val scala213 = "2.13.8"
+lazy val scala213 = "2.13.10"
 
 lazy val commonSettings = Seq(
   organization := "org.sweet-delights",
@@ -45,10 +45,10 @@ lazy val commonSettings = Seq(
     "com.github.julien-truffaut" %% "monocle-macro"            % "2.1.0",
     "org.scala-lang.modules"     %% "scala-xml"                % "2.1.0",
     "org.scala-lang.modules"     %% "scala-parser-combinators" % "2.1.1",
-    "org.slf4j"                  % "slf4j-api"                 % "1.7.36",
-    "org.slf4j"                  % "slf4j-log4j12"             % "1.7.36" % "test",
+    "org.slf4j"                  % "slf4j-api"                 % "2.0.3",
+    "org.slf4j"                  % "slf4j-log4j12"             % "2.0.3" % "test",
     "io.spray"                   %% "spray-json"               % "1.3.6" % "test",
-    "org.specs2"                 %% "specs2-core"              % "4.15.0" % "test"
+    "org.specs2"                 %% "specs2-core"              % "4.17.0" % "test"
   ),
   publishMavenStyle := true,
   publishTo := Some {
