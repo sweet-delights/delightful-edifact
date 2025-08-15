@@ -74,7 +74,7 @@ lazy val commonSettings = Seq(
   releaseNextVersion := { ver =>
     Version(ver).map(_.withoutQualifier.bump.string).getOrElse(versionFormatError(ver)) + "-SNAPSHOT"
   },
-  releaseCommitMessage := s"[sbt-release] setting version to ${(version in ThisBuild).value}",
+  releaseCommitMessage := s"[sbt-release] setting version to ${(ThisBuild / version).value}",
   bugfixRegexes := List(s"${Pattern.quote("[patch]")}.*").map(_.r),
   minorRegexes := List(s"${Pattern.quote("[minor]")}.*").map(_.r),
   majorRegexes := List(s"${Pattern.quote("[major]")}.*").map(_.r),
@@ -82,14 +82,14 @@ lazy val commonSettings = Seq(
     checkSnapshotDependencies,
     inquireVersions,
     runClean,
-    releaseStepCommandAndRemaining("api_2_12/test"),
-    releaseStepCommandAndRemaining("api_2_13/test"),
+    releaseStepCommandAndRemaining("api/test"),
+    releaseStepCommandAndRemaining("api2_12/test"),
     releaseStepCommandAndRemaining("sbtPlugin/scripted"),
     setReleaseVersion,
     commitReleaseVersion,
     tagRelease,
-    releaseStepCommandAndRemaining("api_2_12/publishSigned"),
-    releaseStepCommandAndRemaining("api_2_13/publishSigned"),
+    releaseStepCommandAndRemaining("api/publishSigned"),
+    releaseStepCommandAndRemaining("api2_12/publishSigned"),
     releaseStepCommandAndRemaining("sbtPlugin/publishSigned"),
     setNextVersion,
     commitNextVersion,
@@ -99,7 +99,7 @@ lazy val commonSettings = Seq(
   scalafmtOnCompile := true
 )
 
-lazy val api = (project in file("api"))
+lazy val api = (projectMatrix in file("api"))
   .settings(commonSettings: _*)
   .settings(codeGenSettings: _*)
   .enablePlugins(BuildInfoPlugin)
@@ -107,14 +107,11 @@ lazy val api = (project in file("api"))
     buildInfoKeys := Seq[BuildInfoKey](organization, name, version, scalaVersion, sbtVersion),
     buildInfoPackage := "sweet.delights.edifact"
   )
-  .cross
-
-lazy val api_2_12 = api(scala212)
-lazy val api_2_13 = api(scala213)
+  .jvmPlatform(scalaVersions = Seq(scala213, scala212))
 
 lazy val sbtPlugin = (project in file("sbt"))
   .enablePlugins(SbtPlugin)
-  .dependsOn(api_2_12)
+  .dependsOn(api.jvm(scala212))
   .settings(
     commonSettings,
     name := "sbt-delightful-edifact",
@@ -124,25 +121,24 @@ lazy val sbtPlugin = (project in file("sbt"))
         Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
     },
     scriptedBufferLog := false,
-    scripted := scripted.dependsOn(publishLocal in api_2_12).evaluated
+    scripted := scripted.dependsOn(api.jvm(scala212) / publishLocal).evaluated
   )
 
 lazy val root = (project in file("."))
-  .aggregate(api_2_12)
-  .aggregate(api_2_13)
+  .aggregate(api.projectRefs: _*)
   .aggregate(sbtPlugin)
   .settings(commonSettings: _*)
 
 def codeGenSettings: Seq[Def.Setting[_]] =
   inConfig(Edifact)(baseScalaxbSettings ++ inTask(scalaxb)(customScalaxbSettings("edifact"))) ++
     Seq(
-      sourceGenerators in Compile += (scalaxb in Edifact).taskValue,
-      scalaxbGenerateRuntime in (Edifact, scalaxb) := true
+      Compile / sourceGenerators += (Edifact / scalaxb).taskValue,
+      Edifact / scalaxb / scalaxbGenerateRuntime := true
     )
 
 def customScalaxbSettings(base: String): Seq[Def.Setting[_]] = Seq(
   scalaxbXsdSource := file("api/src/main/resources/xsd"),
-  sourceManaged := (sourceManaged in Compile).value / "sbt-scalaxb" / base,
+  sourceManaged := (Compile / sourceManaged).value / "sbt-scalaxb" / base,
   scalaxbGenerateRuntime := false,
   sources := listOrdered(scalaxbXsdSource.value / base, ".xsd"),
   scalaxbPackageName := "sweet.delights.xsd." + base,

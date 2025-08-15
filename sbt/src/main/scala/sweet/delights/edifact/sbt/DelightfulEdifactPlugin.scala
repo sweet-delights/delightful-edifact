@@ -29,20 +29,20 @@ object DelightfulEdifactPlugin extends sbt.AutoPlugin {
   override lazy val projectSettings: Seq[Def.Setting[_]] =
     inConfig(Compile)(baseDelightfulEdifactSettings) ++
       Set(
-        sourceGenerators in Compile += (delightfulEdifact in Compile).taskValue
+        Compile / sourceGenerators += (Compile / delightfulEdifact).taskValue
       )
 
   lazy val baseDelightfulEdifactSettings: Seq[Def.Setting[_]] = Seq(
-    delightfulEdifact := (delightfulEdifactGenerate in delightfulEdifact).value,
-    sourceManaged in delightfulEdifact := {
+    delightfulEdifact := (delightfulEdifact / delightfulEdifactGenerate).value,
+    delightfulEdifact / sourceManaged := {
       sourceManaged.value / pluginName
     },
-    delightfulEdifactInput in delightfulEdifact := {
+    delightfulEdifact / delightfulEdifactInput := {
       val src = sourceDirectory.value
       if (Seq(Compile, Test) contains configuration.value) src / "resources" / "edifact"
       else src / "main" / "resources" / "edifact"
     },
-    logLevel in delightfulEdifact := (logLevel ?? Level.Info).value
+    delightfulEdifact / logLevel := (logLevel ?? Level.Info).value
   ) ++ inTask(delightfulEdifact)(
     Seq(
       delightfulEdifactGenerate := {
