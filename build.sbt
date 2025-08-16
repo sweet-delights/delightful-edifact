@@ -21,7 +21,7 @@ import sbtrelease.ReleasePlugin.autoImport.{releaseCommitMessage, releaseNextVer
 lazy val Common = config("common") extend (Compile)
 lazy val Edifact = config("xsd") extend (Compile)
 
-lazy val scala212 = "2.12.17"
+lazy val scala212 = "2.12.20"
 lazy val scala213 = "2.13.10"
 
 lazy val commonSettings = Seq(
