@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/sweet-delights/delightful-edifact.svg?branch=master)](https://travis-ci.com/sweet-delights/delightful-edifact)
+[![Build status](https://github.com/sweet-delights/delightful-edifact/actions/workflows/scala.yml/badge.svg)](https://github.com/sweet-delights/delightful-edifact/actions/workflows/scala.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/org.sweet-delights/delightful-edifact_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/org.sweet-delights/delightful-edifact_2.13)
 
 `delightful-edifact` is a data-binding code generator and library for [EDIFACT](https://en.wikipedia.org/wiki/EDIFACT)
