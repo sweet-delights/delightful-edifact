@@ -43,7 +43,7 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "com.github.julien-truffaut" %% "monocle-core"             % "2.1.0",
     "com.github.julien-truffaut" %% "monocle-macro"            % "2.1.0",
-    "org.scala-lang.modules"     %% "scala-xml"                % "2.1.0",
+    "org.scala-lang.modules"     %% "scala-xml"                % "2.4.0",
     "org.scala-lang.modules"     %% "scala-parser-combinators" % "2.4.0",
     "org.slf4j"                  % "slf4j-api"                 % "2.0.17",
     "org.slf4j"                  % "slf4j-log4j12"             % "2.0.17" % "test",
