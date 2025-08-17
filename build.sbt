@@ -17,16 +17,21 @@ import sbtrelease._
 import ReleaseTransformations._
 import ScalaxbPlugin._
 import sbtrelease.ReleasePlugin.autoImport.{releaseCommitMessage, releaseNextVersion}
+import xerial.sbt.Sonatype.sonatypeCentralHost
+
+//ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
 
 lazy val Common = config("common") extend (Compile)
 lazy val Edifact = config("xsd") extend (Compile)
 
 lazy val scala212 = "2.12.20"
 lazy val scala213 = "2.13.10"
+lazy val scala33 = "3.3.6"
 
 lazy val commonSettings = Seq(
   organization := "org.sweet-delights",
   name := "delightful-edifact",
+  versionScheme := Some("semver-spec"),
   homepage := Option(url("https://github.com/sweet-delights/delightful-edifact")),
   licenses := List("GNU Lesser General Public License Version 3" -> url("https://www.gnu.org/licenses/lgpl-3.0.txt")),
   description := "delightful-edifact is an EDIFACT data-binding library and code generator for Scala",
@@ -39,6 +44,13 @@ lazy val commonSettings = Seq(
       url = url("https://github.com/pgrandjean")
     )
   ),
+  javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
+  scalacOptions ++= {
+    scalaBinaryVersion.value match {
+      case "2.12" | "2.13" => Seq("-release", "8", "-target:8")
+      case _ => Seq("-java-output-version", "8")
+    }
+  },
   scalaVersion := scala212,
   libraryDependencies ++= Seq(
     "com.github.julien-truffaut" %% "monocle-core"             % "2.1.0",
@@ -51,49 +63,47 @@ lazy val commonSettings = Seq(
     "org.specs2"                 %% "specs2-core"              % "4.20.9" % "test"
   ),
   publishMavenStyle := true,
-  publishTo := Some {
-    val nexus = "https://oss.sonatype.org/"
-    if (isSnapshot.value)
-      "snapshots" at nexus + "content/repositories/snapshots"
-    else
-      "releases" at nexus + "service/local/staging/deploy/maven2"
-  },
+  // sbt-sonatype
+  sonatypeTimeoutMillis := 60 * 60 * 1000,
+  sonatypeCredentialHost := sonatypeCentralHost,
+  publishTo := sonatypePublishToBundle.value,
   // sbt-release
-//  releaseCrossBuild := true,
   releaseVersion := { ver =>
     val bumpedVersion = Version(ver)
       .map { v =>
         suggestedBump.value match {
-          case Version.Bump.Bugfix => v.withoutQualifier.string
-          case _ => v.bump(suggestedBump.value).withoutQualifier.string
+          case Version.Bump.Bugfix => v.withoutQualifier.unapply
+          case _ => v.bump(suggestedBump.value).withoutQualifier.unapply
         }
       }
       .getOrElse(versionFormatError(ver))
     bumpedVersion
   },
   releaseNextVersion := { ver =>
-    Version(ver).map(_.withoutQualifier.bump.string).getOrElse(versionFormatError(ver)) + "-SNAPSHOT"
+    Version(ver).map(_.withoutQualifier.bumpNext.unapply).getOrElse(versionFormatError(ver)) + "-SNAPSHOT"
   },
   releaseCommitMessage := s"[sbt-release] setting version to ${(ThisBuild / version).value}",
-  bugfixRegexes := List(s"${Pattern.quote("[patch]")}.*").map(_.r),
-  minorRegexes := List(s"${Pattern.quote("[minor]")}.*").map(_.r),
-  majorRegexes := List(s"${Pattern.quote("[major]")}.*").map(_.r),
+  bugfixRegexes := List("[patch]", "[fix]", "[bugfix]", "[technical]").map(Pattern.quote).map(_ + ".*").map(_.r),
+  minorRegexes := List("[minor]").map(Pattern.quote).map(_ + ".*").map(_.r),
+  majorRegexes := List("[major]").map(Pattern.quote).map(_ + ".*").map(_.r),
   releaseProcess := Seq[ReleaseStep](
     checkSnapshotDependencies,
     inquireVersions,
     runClean,
     releaseStepCommandAndRemaining("api/test"),
     releaseStepCommandAndRemaining("api2_12/test"),
+    releaseStepCommandAndRemaining("api3/test"),
     releaseStepCommandAndRemaining("sbtPlugin/scripted"),
     setReleaseVersion,
     commitReleaseVersion,
     tagRelease,
     releaseStepCommandAndRemaining("api/publishSigned"),
     releaseStepCommandAndRemaining("api2_12/publishSigned"),
+    releaseStepCommandAndRemaining("api3/publishSigned"),
     releaseStepCommandAndRemaining("sbtPlugin/publishSigned"),
+    releaseStepCommand("sonatypeBundleRelease"),
     setNextVersion,
     commitNextVersion,
-    releaseStepCommand("sonatypeRelease"),
     pushChanges
   ),
   scalafmtOnCompile := true
@@ -108,7 +118,7 @@ lazy val api = (projectMatrix in file("api"))
     buildInfoKeys := Seq[BuildInfoKey](organization, name, version, scalaVersion, sbtVersion),
     buildInfoPackage := "sweet.delights.edifact"
   )
-  .jvmPlatform(scalaVersions = Seq(scala213, scala212))
+  .jvmPlatform(scalaVersions = Seq(scala33, scala213, scala212))
 
 lazy val sbtPlugin = (project in file("sbt"))
   .enablePlugins(SbtPlugin)
@@ -122,7 +132,8 @@ lazy val sbtPlugin = (project in file("sbt"))
         Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
     },
     scriptedBufferLog := false,
-    scripted := scripted.dependsOn(api.jvm(scala212) / publishLocal).evaluated
+    scripted := scripted.dependsOn(api.jvm(scala212) / publishLocal).evaluated,
+    sbtPluginPublishLegacyMavenStyle := false
   )
 
 lazy val root = (project in file("."))

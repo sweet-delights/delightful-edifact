@@ -4,4 +4,4 @@
 -XX:MaxMetaspaceSize=1g
 -Duser.country=US
 -Duser.language=en
-
+-Dsun.net.client.defaultReadTimeout=60000

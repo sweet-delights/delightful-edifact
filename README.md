@@ -5,7 +5,7 @@
 messages, written in [Scala](https://www.scala-lang.org/) . It is inspired by the excellent [`scalaxb`](https://scalaxb.org/)
 tool. The parsing itself is implemented with [`scala-parser-combinators`](https://github.com/scala/scala-parser-combinators).
 
-`delightful-edifact` is built for Scala 2.12 and 2.13. The plugin is tested against SBT 1.3.13.
+`delightful-edifact` is built for Scala 2.12, 2.13 and 3.3. The plugin is tested against SBT 1.11.4.
 
 ## Quick Start
 
