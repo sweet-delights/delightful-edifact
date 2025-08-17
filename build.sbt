@@ -101,6 +101,7 @@ lazy val commonSettings = Seq(
 
 lazy val api = (projectMatrix in file("api"))
   .settings(commonSettings: _*)
+  .settings(ScalaxbPlugin.globalSettings: _*)
   .settings(codeGenSettings: _*)
   .enablePlugins(BuildInfoPlugin)
   .settings(
