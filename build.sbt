@@ -60,7 +60,7 @@ lazy val commonSettings = Seq(
     "org.slf4j"                  % "slf4j-api"                 % "2.0.17",
     "org.slf4j"                  % "slf4j-log4j12"             % "2.0.17" % "test",
     "io.spray"                   %% "spray-json"               % "1.3.6" % "test",
-    "org.specs2"                 %% "specs2-core"              % "4.20.9" % "test"
+    "org.specs2"                 %% "specs2-core"              % "4.21.0" % "test"
   ),
   publishMavenStyle := true,
   // sbt-sonatype
