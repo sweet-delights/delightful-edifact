@@ -57,8 +57,8 @@ lazy val commonSettings = Seq(
     "com.github.julien-truffaut" %% "monocle-macro"            % "2.1.0",
     "org.scala-lang.modules"     %% "scala-xml"                % "2.4.0",
     "org.scala-lang.modules"     %% "scala-parser-combinators" % "2.4.0",
-    "org.slf4j"                  % "slf4j-api"                 % "2.0.17",
-    "org.slf4j"                  % "slf4j-log4j12"             % "2.0.17" % "test",
+    "org.slf4j"                  % "slf4j-api"                 % "2.0.20",
+    "org.slf4j"                  % "slf4j-log4j12"             % "2.0.20" % "test",
     "io.spray"                   %% "spray-json"               % "1.3.6" % "test",
     "org.specs2"                 %% "specs2-core"              % "4.22.0" % "test"
   ),
